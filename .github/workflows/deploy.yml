@@ -33,7 +33,10 @@ jobs:
           cache: pnpm
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
+        env:
+          COREPACK_INTEGRITY_KEYS: "0"
+          PNPM_CONFIG_MINIMUM_RELEASE_AGE: "0"
 
       - name: Build
         run: pnpm run build
