@@ -2,15 +2,16 @@
 import { SITE_TITLE, NAV_ITEMS } from '../consts';
 
 const currentPath = Astro.url.pathname;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <header>
   <div class="container nav-container">
-    <a href="/" class="logo">{SITE_TITLE}</a>
+    <a href={`${base}/`} class="logo">{SITE_TITLE}</a>
     <nav class="nav-links">
       {NAV_ITEMS.map((item) => (
         <a
-          href={item.href}
+          href={`${base}${item.href}`}
           class={'nav-link' + ((currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href))) ? ' active' : '')}
         >
           <span class="nav-label">{item.label}</span>
