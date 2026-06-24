@@ -1,0 +1,227 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_TITLE, PROJECTS } from '../consts';
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <BaseHead title={`项目 — ${SITE_TITLE}`} description="项目经历与作品集" />
+  </head>
+  <body>
+    <Header />
+
+    <main>
+      <section class="page-hero">
+        <div class="container">
+          <h1 class="page-title animate-in stagger-1">项目</h1>
+          <p class="page-subtitle animate-in stagger-2">Projects</p>
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <section class="projects-section">
+        <div class="container">
+          {PROJECTS.map((project, i) => (
+            <article class={`project-row animate-in`} style={`animation-delay: ${0.2 + i * 0.15}s`}>
+              <div class={`project-row-inner ${i % 2 === 1 ? 'project-reverse' : ''}`}>
+                <div class="project-image-side">
+                  <div class="project-image-placeholder">
+                    <span class="project-image-id">0{i + 1}</span>
+                  </div>
+                </div>
+                <div class="project-content-side">
+                  <span class="project-index">{String(i + 1).padStart(2, '0')}.</span>
+                  <h2 class="project-name">{project.name}</h2>
+                  <p class="project-subtitle">{project.subtitle}</p>
+                  <div class="project-meta">
+                    <span class="project-badge">{project.role}</span>
+                    <span class="project-badge">{project.period}</span>
+                  </div>
+                  <p class="project-stack">{project.stack}</p>
+                  <ul class="project-highlights">
+                    {project.highlights.map((h) => (
+                      <li>{h}</li>
+                    ))}
+                  </ul>
+                  {project.link && (
+                    <a href={project.link} target="_blank" rel="noopener" class="project-link">
+                      {project.linkLabel} &nearr;
+                    </a>
+                  )}
+                </div>
+              </div>
+              {i < PROJECTS.length - 1 && <div class="project-divider"></div>}
+            </article>
+          ))}
+        </div>
+      </section>
+    </main>
+
+    <Footer />
+  </body>
+</html>
+
+<style>
+  .page-hero {
+    padding: 4rem 0 1.5rem;
+  }
+  .page-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.3rem;
+  }
+  .page-subtitle {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  .projects-section {
+    padding: 4rem 0 5rem;
+  }
+  .project-row {
+    margin-bottom: 0;
+  }
+  .project-row-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+  .project-reverse {
+    direction: rtl;
+  }
+  .project-reverse .project-content-side,
+  .project-reverse .project-image-side {
+    direction: ltr;
+  }
+  .project-image-side {
+    position: sticky;
+    top: 6rem;
+  }
+  .project-image-placeholder {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    background: var(--surface);
+    border: 2px dashed var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .project-image-id {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 6rem;
+    font-weight: 900;
+    color: var(--border);
+    font-style: italic;
+    line-height: 1;
+  }
+
+  .project-content-side {
+    padding-top: 0.5rem;
+  }
+  .project-index {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: var(--surface);
+    line-height: 0.8;
+    display: block;
+    margin-bottom: -0.5rem;
+  }
+  .project-name {
+    font-size: 1.75rem;
+    font-weight: 800;
+    margin-bottom: 0.15rem;
+    position: relative;
+    z-index: 1;
+  }
+  .project-subtitle {
+    font-size: 1rem;
+    color: var(--text-muted);
+    margin: 0 0 1rem;
+    font-style: italic;
+  }
+  .project-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+  .project-badge {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.2em 0.6em;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-family: var(--font-atkinson);
+  }
+  .project-stack {
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    margin: 0 0 1rem;
+  }
+  .project-highlights {
+    margin: 0;
+    padding-left: 1.25rem;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+  .project-highlights li {
+    margin-bottom: 0.45rem;
+  }
+  .project-highlights li::marker {
+    color: var(--accent);
+  }
+  .project-link {
+    display: inline-block;
+    margin-top: 1rem;
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 0.8rem;
+    color: var(--accent);
+    border-bottom-color: transparent;
+  }
+  .project-link:hover {
+    border-bottom-color: var(--accent);
+  }
+  .project-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 3.5rem 0;
+  }
+
+  @media (max-width: 720px) {
+    .project-row-inner {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    .project-image-side {
+      position: static;
+      order: -1;
+    }
+    .project-image-placeholder {
+      aspect-ratio: 16 / 9;
+    }
+    .project-image-id {
+      font-size: 3rem;
+    }
+    .project-name {
+      font-size: 1.4rem;
+    }
+    .project-divider {
+      margin: 2.5rem 0;
+    }
+  }
+</style>

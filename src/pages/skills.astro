@@ -1,0 +1,156 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_TITLE, SKILLS } from '../consts';
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <BaseHead title={`技术栈 — ${SITE_TITLE}`} description="技术能力与工具栈" />
+  </head>
+  <body>
+    <Header />
+
+    <main>
+      <section class="page-hero">
+        <div class="container">
+          <h1 class="page-title animate-in stagger-1">技术栈</h1>
+          <p class="page-subtitle animate-in stagger-2">Skills &amp; Tools</p>
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <section class="skills-section">
+        <div class="container">
+          <div class="skills-overlap">
+            {SKILLS.map((group, i) => (
+              <div class="skill-card animate-in" style={`animation-delay: ${0.15 + i * 0.12}s; --card-accent: ${group.accent}`}>
+                <div class="skill-card-accent"></div>
+                <div class="skill-card-body">
+                  <h2 class="skill-card-category">{group.category}</h2>
+                  <ul class="skill-card-list">
+                    {group.items.map((item) => (
+                      <li class="skill-item">
+                        <span class="skill-name">{item.name}</span>
+                        <span class={`skill-dot skill-${item.level}`}></span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <Footer />
+  </body>
+</html>
+
+<style>
+  .page-hero {
+    padding: 4rem 0 1.5rem;
+  }
+  .page-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.3rem;
+  }
+  .page-subtitle {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  .skills-section {
+    padding: 4rem 0 5rem;
+  }
+  .skills-overlap {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3rem 2rem;
+  }
+
+  .skill-card {
+    position: relative;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .skill-card:nth-child(even) {
+    margin-top: 3rem;
+  }
+  .skill-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+  }
+  .skill-card-accent {
+    height: 4px;
+    background: var(--card-accent, var(--accent));
+  }
+  .skill-card-body {
+    padding: 2rem;
+  }
+  .skill-card-category {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--card-accent, var(--accent));
+    font-family: var(--font-atkinson);
+    margin-bottom: 1.25rem;
+  }
+  .skill-card-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+  .skill-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.95rem;
+    color: var(--text);
+  }
+  .skill-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--border);
+  }
+  .skill-dot.skill-expert {
+    background: var(--card-accent, var(--accent));
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--card-accent, var(--accent)) 25%, transparent);
+  }
+  .skill-dot.skill-advanced {
+    background: var(--card-accent, var(--accent));
+    opacity: 0.65;
+  }
+  .skill-dot.skill-intermediate {
+    background: var(--card-accent, var(--accent));
+    opacity: 0.35;
+  }
+
+  @media (max-width: 720px) {
+    .skills-overlap {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    .skill-card:nth-child(even) {
+      margin-top: 0;
+    }
+    .page-title {
+      font-size: 2.2rem;
+    }
+  }
+</style>

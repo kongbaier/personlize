@@ -1,0 +1,159 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_TITLE, BOOKS } from '../consts';
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <BaseHead title={`读过 — ${SITE_TITLE}`} description="技术书籍阅读记录" />
+  </head>
+  <body>
+    <Header />
+
+    <main>
+      <section class="page-hero">
+        <div class="container">
+          <h1 class="page-title animate-in stagger-1">读过的书</h1>
+          <p class="page-subtitle animate-in stagger-2">Bookshelf</p>
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <section class="books-section">
+        <div class="container">
+          <div class="books-shelf">
+            {BOOKS.map((book, i) => (
+              <div class="book-card animate-in" style={`animation-delay: ${0.08 + i * 0.08}s`}>
+                <div class="book-spine" style={`background: ${book.spine}`}></div>
+                <div class="book-body">
+                  <div class="book-cover-placeholder">
+                    <span class="book-initial">{book.title.charAt(0)}</span>
+                  </div>
+                  <div class="book-info">
+                    <h3 class="book-title">{book.title}</h3>
+                    <p class="book-author">{book.author}</p>
+                    <p class="book-note">{book.note}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <Footer />
+  </body>
+</html>
+
+<style>
+  .page-hero {
+    padding: 4rem 0 1.5rem;
+  }
+  .page-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.3rem;
+  }
+  .page-subtitle {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  .books-section {
+    padding: 4rem 0 5rem;
+  }
+  .books-shelf {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .book-card {
+    display: flex;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+  }
+  .book-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  }
+  .book-spine {
+    width: 8px;
+    flex-shrink: 0;
+    transition: width 0.25s ease;
+  }
+  .book-card:hover .book-spine {
+    width: 12px;
+  }
+  .book-body {
+    display: flex;
+    padding: 1.5rem;
+    gap: 1.25rem;
+    flex: 1;
+  }
+  .book-cover-placeholder {
+    width: 70px;
+    height: 100px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .book-initial {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--text-dim);
+    opacity: 0.5;
+  }
+  .book-info {
+    flex: 1;
+    min-width: 0;
+  }
+  .book-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 0.2rem;
+    line-height: 1.3;
+  }
+  .book-author {
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    margin: 0 0 0.6rem;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: italic;
+  }
+  .book-note {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  @media (max-width: 720px) {
+    .books-shelf {
+      grid-template-columns: 1fr;
+    }
+    .book-body {
+      padding: 1rem;
+      gap: 1rem;
+    }
+    .book-cover-placeholder {
+      width: 55px;
+      height: 80px;
+    }
+  }
+</style>

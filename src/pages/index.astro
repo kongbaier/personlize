@@ -2,48 +2,278 @@
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import {
+  SITE_DESCRIPTION,
+  SITE_TITLE,
+  NAME,
+  NAME_EN,
+  TAGLINE,
+  TAGLINE_EN,
+  INTRO,
+  NAV_ITEMS,
+} from '../consts';
+
+const cityItems = NAV_ITEMS.filter((item) => item.href !== '/');
 ---
 
 <!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This template
-				serves as a lightweight, minimally-styled starting point for anyone looking to build a personal
-				website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to
-				<a href="https://docs.astro.build/">read the docs</a>
-				or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out
-				<a href="https://github.com/Charca/astro-blog-template">astro-blog-template</a>
-				by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
-		</main>
-		<Footer />
-	</body>
+<html lang="zh-CN">
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+  </head>
+  <body>
+    <Header />
+
+    <main>
+      <section class="hero" id="hero-section">
+        <div class="container hero-container">
+          <div class="hero-grid">
+            <div class="hero-text animate-in stagger-1">
+              <h1>{NAME}</h1>
+              <p class="hero-name-en">{NAME_EN}</p>
+              <p class="hero-tagline">{TAGLINE}</p>
+              <p class="hero-tagline-en">{TAGLINE_EN}</p>
+              <p class="hero-intro">{INTRO}</p>
+            </div>
+            <div class="hero-visual animate-in stagger-3">
+              <div class="hero-photo-frame" id="hero-photo">
+                <div class="hero-photo-inner">
+                  <span class="hero-photo-label">Photo</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="explore-section" id="explore-section">
+        <div class="container">
+          <h2 class="explore-heading">Explore</h2>
+          <nav class="explore-grid">
+            {cityItems.map((item, i) => (
+              <a href={item.href} class="explore-card">
+                <div class="explore-card-layer explore-card-layer--front">
+                  <span class="explore-card-index">{String(i + 1).padStart(2, '0')}</span>
+                  <span class="explore-card-zh">{item.label}</span>
+                  <span class="explore-card-en">{item.labelEn}</span>
+                  <span class="explore-card-arrow">&rarr;</span>
+                </div>
+                <div class="explore-card-layer explore-card-layer--back"></div>
+              </a>
+            ))}
+          </nav>
+        </div>
+      </section>
+    </main>
+
+    <Footer />
+  </body>
 </html>
+
+<style>
+  .hero {
+    position: relative;
+    padding: 6rem 0 5rem;
+    overflow: hidden;
+  }
+  .hero-container {
+    position: relative;
+    z-index: 1;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 5rem;
+    align-items: center;
+  }
+  .hero h1 {
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.3rem;
+  }
+  .hero-name-en {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.5rem;
+    font-style: italic;
+    color: var(--text-muted);
+    margin: 0 0 1rem;
+  }
+  .hero-tagline {
+    font-size: 1.1rem;
+    color: var(--text);
+    margin: 0 0 0.2rem;
+    font-weight: 500;
+  }
+  .hero-tagline-en {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.05rem;
+    font-style: italic;
+    color: var(--text-muted);
+    margin: 0 0 2rem;
+  }
+  .hero-intro {
+    max-width: 560px;
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+    margin: 0;
+  }
+  .hero-visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .hero-photo-frame {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    background: var(--surface);
+    border: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .hero-photo-frame::after {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border: 1px solid var(--border);
+  }
+  .hero-photo-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .hero-photo-label {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    font-style: italic;
+  }
+
+  .explore-section {
+    padding: 5rem 0 6rem;
+    background: #ede9df;
+  }
+  .explore-heading {
+    text-align: center;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2rem;
+    font-style: italic;
+    color: var(--text-muted);
+    margin: 0 0 3.5rem;
+  }
+  .explore-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.8rem;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  .explore-card {
+    position: relative;
+    text-decoration: none;
+    display: block;
+    min-height: 220px;
+    transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .explore-card:hover {
+    transform: translateY(-6px);
+  }
+  .explore-card-layer {
+    position: absolute;
+    inset: 0;
+    border: 2px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 0.35rem;
+    padding: 2rem;
+    transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .explore-card-layer--back {
+    background: var(--border);
+    transform: translate(8px, 8px);
+    z-index: 0;
+  }
+  .explore-card:hover .explore-card-layer--back {
+    transform: translate(12px, 12px);
+  }
+  .explore-card-layer--front {
+    background: var(--surface);
+    z-index: 1;
+  }
+  .explore-card:hover .explore-card-layer--front {
+    border-color: var(--accent);
+  }
+  .explore-card-index {
+    font-family: var(--font-atkinson);
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--text-dim);
+    letter-spacing: 0.12em;
+    margin-bottom: 0.2rem;
+  }
+  .explore-card-zh {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: 0.02em;
+  }
+  .explore-card-en {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-dim);
+    font-family: var(--font-atkinson);
+  }
+  .explore-card-arrow {
+    font-size: 0.9rem;
+    color: var(--accent);
+    opacity: 0;
+    transform: translateX(-8px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    margin-top: 0.3rem;
+  }
+  .explore-card:hover .explore-card-arrow {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  @media (max-width: 720px) {
+    .hero {
+      padding: 3rem 0 3rem;
+    }
+    .hero-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    .hero h1 { font-size: 2.5rem; }
+    .hero-name-en { font-size: 1.2rem; }
+    .hero-photo-frame { max-width: 220px; margin: 0 auto; }
+    .explore-section {
+      padding: 3rem 0 4rem;
+    }
+    .explore-heading {
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .explore-grid {
+      grid-template-columns: 1fr;
+      gap: 1.2rem;
+    }
+    .explore-card {
+      min-height: 140px;
+    }
+    .explore-card-layer {
+      padding: 1.5rem;
+    }
+    .explore-card-zh {
+      font-size: 1.2rem;
+    }
+  }
+</style>
+
+

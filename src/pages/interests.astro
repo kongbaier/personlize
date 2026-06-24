@@ -1,0 +1,168 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_TITLE, INTERESTS } from '../consts';
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <BaseHead title={`兴趣 — ${SITE_TITLE}`} description="个人兴趣与关注领域" />
+  </head>
+  <body>
+    <Header />
+
+    <main>
+      <section class="page-hero">
+        <div class="container">
+          <h1 class="page-title animate-in stagger-1">兴趣</h1>
+          <p class="page-subtitle animate-in stagger-2">What I'm into</p>
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <section class="interests-section">
+        <div class="container">
+          <div class="interests-grid">
+            {INTERESTS.map((interest, i) => (
+              <div
+                class={`interest-card animate-in ${i === 0 ? 'interest-featured' : ''}`}
+                style={`animation-delay: ${0.1 + i * 0.1}s; --interest-color: ${interest.color}`}
+              >
+                <div class="interest-icon-area">
+                  <span class="interest-emoji">{interest.title.slice(0, 2)}</span>
+                </div>
+                <div class="interest-content">
+                  <h2 class="interest-title">{interest.title.slice(2)}</h2>
+                  <p class="interest-desc">{interest.desc}</p>
+                </div>
+                <div class="interest-accent"></div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <Footer />
+  </body>
+</html>
+
+<style>
+  .page-hero {
+    padding: 4rem 0 1.5rem;
+  }
+  .page-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.3rem;
+  }
+  .page-subtitle {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  .interests-section {
+    padding: 4rem 0 5rem;
+  }
+  .interests-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    grid-auto-rows: 1fr;
+  }
+
+  .interest-card {
+    position: relative;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+  }
+  .interest-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+  }
+  .interest-featured {
+    grid-column: span 2;
+    flex-direction: row;
+  }
+  .interest-accent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--interest-color);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+  .interest-card:hover .interest-accent {
+    transform: scaleX(1);
+  }
+
+  .interest-icon-area {
+    padding: 2rem 2rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100px;
+  }
+  .interest-featured .interest-icon-area {
+    padding: 2rem;
+    min-height: auto;
+    min-width: 120px;
+  }
+  .interest-emoji {
+    font-size: 2.5rem;
+    line-height: 1;
+  }
+  .interest-featured .interest-emoji {
+    font-size: 3.5rem;
+  }
+  .interest-content {
+    padding: 1rem 2rem 2rem;
+    flex: 1;
+  }
+  .interest-featured .interest-content {
+    padding: 2rem 2rem 2rem 0;
+  }
+  .interest-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+  }
+  .interest-desc {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  @media (max-width: 720px) {
+    .interests-grid {
+      grid-template-columns: 1fr;
+    }
+    .interest-featured {
+      grid-column: span 1;
+      flex-direction: column;
+    }
+    .interest-featured .interest-icon-area {
+      min-width: auto;
+      padding: 2rem 2rem 0;
+    }
+    .interest-featured .interest-content {
+      padding: 1rem 2rem 2rem;
+    }
+  }
+</style>

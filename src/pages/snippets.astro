@@ -1,0 +1,200 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_TITLE, SNIPPETS } from '../consts';
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <BaseHead title={`代码片段 — ${SITE_TITLE}`} description="代码片段与技术实现" />
+  </head>
+  <body>
+    <Header />
+
+    <main>
+      <section class="page-hero">
+        <div class="container">
+          <h1 class="page-title animate-in stagger-1">代码片段</h1>
+          <p class="page-subtitle animate-in stagger-2">Code Snippets</p>
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <section class="snippets-section">
+        <div class="container">
+          <div class="snippets-grid">
+            {SNIPPETS.map((snippet, i) => (
+              <div class="snippet-card animate-in" style={`animation-delay: ${0.15 + i * 0.1}s`}>
+                <div class="snippet-chrome">
+                  <span class="chrome-dot chrome-red"></span>
+                  <span class="chrome-dot chrome-yellow"></span>
+                  <span class="chrome-dot chrome-green"></span>
+                  <span class="snippet-filename">{snippet.title}.ts</span>
+                </div>
+                <div class="snippet-body">
+                  <div class="snippet-lines">
+                    {snippet.code.split('\n').map((_, lineIdx) => (
+                      <span class="line-number">{lineIdx + 1}</span>
+                    ))}
+                  </div>
+                  <pre class="snippet-code"><code>{snippet.code}</code></pre>
+                </div>
+                <div class="snippet-footer">
+                  <p class="snippet-desc">{snippet.desc}</p>
+                  <span class="snippet-lang">{snippet.lang}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <Footer />
+  </body>
+</html>
+
+<style>
+  .page-hero {
+    padding: 4rem 0 1.5rem;
+  }
+  .page-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.3rem;
+  }
+  .page-subtitle {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  .snippets-section {
+    padding: 4rem 0 5rem;
+  }
+  .snippets-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  .snippet-card {
+    background: #1e1e1e;
+    border: 1px solid #333;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .snippet-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  }
+  .snippet-chrome {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.75rem 1rem;
+    background: #2d2d2d;
+    border-bottom: 1px solid #333;
+  }
+  .chrome-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .chrome-red { background: #ff5f56; }
+  .chrome-yellow { background: #ffbd2e; }
+  .chrome-green { background: #27c93f; }
+  .snippet-filename {
+    margin-left: 0.5rem;
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 0.72rem;
+    color: #999;
+  }
+  .snippet-body {
+    display: flex;
+    padding: 1rem 0;
+    max-height: 360px;
+    overflow: hidden;
+    position: relative;
+  }
+  .snippet-body::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+    background: linear-gradient(transparent, #1e1e1e);
+  }
+  .snippet-lines {
+    display: flex;
+    flex-direction: column;
+    padding: 0 0.75rem 0 0.5rem;
+    border-right: 1px solid #333;
+    user-select: none;
+    flex-shrink: 0;
+  }
+  .line-number {
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 0.72rem;
+    line-height: 1.65;
+    color: #555;
+    text-align: right;
+    min-width: 1.5em;
+  }
+  .snippet-code {
+    margin: 0;
+    padding: 0 1rem 0 0.75rem;
+    background: transparent;
+    font-size: 0.74rem;
+    line-height: 1.65;
+    overflow-x: auto;
+    flex: 1;
+  }
+  .snippet-code code {
+    color: #d4d4d4;
+    background: transparent;
+    padding: 0;
+    font-size: inherit;
+    white-space: pre;
+  }
+  .snippet-footer {
+    padding: 0.75rem 1rem;
+    border-top: 1px solid #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+  .snippet-desc {
+    font-size: 0.8rem;
+    color: #888;
+    margin: 0;
+    line-height: 1.5;
+    flex: 1;
+  }
+  .snippet-lang {
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 0.65rem;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 720px) {
+    .snippets-grid {
+      grid-template-columns: 1fr;
+    }
+    .snippet-body {
+      max-height: 280px;
+    }
+  }
+</style>
