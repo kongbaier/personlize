@@ -1,8 +1,8 @@
 ---
 import { SITE_TITLE, NAV_ITEMS } from '../consts';
 
-const currentPath = Astro.url.pathname;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const currentPath = Astro.url.pathname.slice(base.length) || '/';
 ---
 
 <header>
